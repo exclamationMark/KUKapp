@@ -21,7 +21,7 @@
 		<div class="leaderboard-contiainer">
 			{% for person in leaderboard %}
 			<div class="lb-entry">
-				<img src="{{url_for('static', filename=person.name + '.jpg')}}">
+				<img src="{{url_for('static', filename=person.name + '.png')}}">
 				<span class="name">{{ person.name }}</span>
 				<span class="score">{{ person.score }}</span>
 			</div>
@@ -32,7 +32,7 @@
 		<h1>Next Meal</h1>
 		<h2>Cook</h2>
 			<div class="cook-entry">
-				<img src="{{url_for('static', filename=cook.name + '.jpg')}}">
+				<img src="{{url_for('static', filename=cook.name + '.png')}}">
 				<span>{{ cook.name }}</span>
 				<div class="rect-button"><span>CONFIRM</span></div>
 				<div class="rect-button"><span>BAIL</span></div>
@@ -40,7 +40,7 @@
 		<h2>Eaters</h2>
 			{% for eater in eaters %}
 			<div class="eater-entry">
-				<img src="{{url_for('static', filename=eater.name + '.jpg')}}">
+				<img src="{{url_for('static', filename=eater.name + '.png')}}">
 				<span>{{ eater.name }}</span>
 			</div>
 			{% endfor %}
