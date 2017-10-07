@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="leaderboard">
-		<h1>Leaderboard</h1>
+		<h1 style="text-align: center">Leaderboard</h1>
 		<div class="leaderboard-contiainer">
 			{% for person in leaderboard %}
 			<div class="lb-entry">
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	<div class="next-meal">
-		<h1>Next Meal</h1>
+		<h1 style="padding-left: 40pt">Next Meal</h1>
 		<h2>Cook</h2>
 			<div class="cook-entry">
 				<img src="{{url_for('static', filename=cook.name + '.png')}}">
@@ -45,7 +45,7 @@
 			</div>
 			{% endfor %}
 			<div class="eater-entry">
-				<div class="add-button"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
+				<div class="add-button" onclick="addme()"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
 				<span>Add me</span>
 			</div>
 	</div>
