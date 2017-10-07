@@ -1,0 +1,156 @@
+html {
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	padding-left: 20pt;
+}
+
+h2 {
+	padding-left: 20pt;
+}
+
+.leaderboard {
+	width: 35%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-top: 8pt;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);
+	color: #d4d0cd;
+}
+
+.next-meal {
+	width: 64%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 35%;
+	padding-left: 8pt;
+	padding-top: 8pt;
+}
+
+.lb-entry {
+	padding: 0;
+	height: 60pt;
+	position: relative;
+}
+
+.lb-entry img {
+	height: 50pt;
+	width: auto;
+	position: absolute;
+	top: 50%;
+	left: 25pt;
+	margin-top: -25pt;
+}
+
+.lb-entry span.score {
+	position: absolute;
+	font-size: 16pt;
+	top: 50%;
+	margin-top: -8pt;
+	left: 70%;
+}
+
+.lb-entry span.name {
+	position: absolute;
+	font-size: 16pt;
+	top: 50%;
+	margin-top: -8pt;
+	left: 30%;
+}
+
+.cook-entry {
+	padding: 0;
+	height: 60pt;
+	position: relative;
+}
+
+.cook-entry img {
+	height: 50pt;
+	width: auto;
+	position: absolute;
+	top: 50%;
+	left: 25pt;
+	margin-top: -25pt;
+}
+
+.cook-entry span {
+	position: absolute;
+	font-size: 16pt;
+	top: 50%;
+	margin-top: -8pt;
+	left: 100pt;
+}
+
+.eater-entry {
+	padding: 0;
+	height: 60pt;
+	position: relative;
+}
+
+.eater-entry img {
+	height: 50pt;
+	width: auto;
+	position: absolute;
+	top: 50%;
+	left: 25pt;
+	margin-top: -25pt;
+}
+
+.eater-entry span {
+	position: absolute;
+	font-size: 16pt;
+	top: 50%;
+	margin-top: -8pt;
+	left: 100pt;
+}
+
+.rect-button {
+	width: 100pt;
+	height: 25pt;
+	background: #EE7500;
+	position: relative;
+	color: #F1EDEA;
+	left: 200pt;
+	margin-top: 3pt;
+	cursor: pointer;
+}
+
+.rect-button span {
+	font-size: 12pt;
+	position: absolute;
+	top: 50%;
+	margin-top: -6pt;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #EAEAEA;
+}
+
+.add-button {
+	height: 50pt;
+	width: 50pt;
+	position: absolute;
+	top: 50%;
+	left: 25pt;
+	margin-top: -25pt;
+	color: #F1EDEA;
+	border-radius: 25pt;
+	background: #EE7500;
+	cursor: pointer;
+}
+
+.add-button span {
+	font-size: 34pt;
+	position: absolute;
+	top: 50%;
+	margin-top: -18pt;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}

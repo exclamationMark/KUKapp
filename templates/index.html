@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KUKapp</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<script src="https://use.fontawesome.com/2fef7be393.js"></script>
+	<style type="text/css">
+		html {
+			background-image: url({{url_for('static', filename='burger.jpg')}});
+			background-position: left top;
+			background-repeat: no-repeat;
+			background-size: 100% auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="leaderboard">
+		<h1>Leaderboard</h1>
+		<div class="leaderboard-contiainer">
+			{% for person in leaderboard %}
+			<div class="lb-entry">
+				<img src="{{url_for('static', filename=person.name + '.jpg')}}">
+				<span class="name">{{ person.name }}</span>
+				<span class="score">{{ person.score }}</span>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="next-meal">
+		<h1>Next Meal</h1>
+		<h2>Cook</h2>
+			<div class="cook-entry">
+				<img src="{{url_for('static', filename=cook.name + '.jpg')}}">
+				<span>{{ cook.name }}</span>
+				<div class="rect-button"><span>CONFIRM</span></div>
+				<div class="rect-button"><span>BAIL</span></div>
+			</div>
+		<h2>Eaters</h2>
+			{% for eater in eaters %}
+			<div class="eater-entry">
+				<img src="{{url_for('static', filename=eater.name + '.jpg')}}">
+				<span>{{ eater.name }}</span>
+			</div>
+			{% endfor %}
+			<div class="eater-entry">
+				<div class="add-button"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
+				<span>Add me</span>
+			</div>
+	</div>
+</body>
+</html>
