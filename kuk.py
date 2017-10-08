@@ -1,7 +1,15 @@
 import random
 import operator
 import json
+#from flask import Flask, Response, redirect, url_for, request, session, abort, render_template
+#from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+#app = Flask(__name__)
 
+# config
+#app.config.update(
+#    DEBUG = True,
+#    SECRET_KEY = 'secret_xxx'
+#)
 configFileName = "kukconfig.json"
 
 people = {}
@@ -9,13 +17,15 @@ class Person(object):
 	global people
 	def __init__(self, name):
 		self.name = name
-		self.kukPoints = 0	
+		self.kukPoints = 0
+		self.password = ''
 		people[name] = self
 
 	@classmethod
-	def fromFile(self, name, kukPoints):
+	def fromFile(self, name, kukPoints, password):
 		person = Person(name)
 		person.kukPoints = kukPoints
+		person.password = password
 
 	@staticmethod
 	def get(name):
@@ -123,7 +133,7 @@ def load():
 		print "no people file!"
 		return
 	for person in fileData:
-		Person.fromFile(person['name'], person['kukPoints'])
+		Person.fromFile(person['name'], person['kukPoints'], person['password'])
 
 
 kukPointTable = {}
