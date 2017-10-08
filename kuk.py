@@ -10,11 +10,12 @@ class Person(object):
 	def __init__(self, name):
 		self.name = name
 		self.kukPoints = 0
-		self.kukMealCount = 0
-		self.kukServingCount = 0
-		self.attendanceRate = 0.5
-		self.eatenCount = 0
 		people[name] = self
+
+	@classmethod
+	def fromFile(self, name, kukPoints):
+		person = Person(name)
+		self.kukPoints = kukPoints
 
 	@staticmethod
 	def get(name):
@@ -22,28 +23,82 @@ class Person(object):
 			people[name] = Person(name)
 		return people[name]
 
+	def serialized(self):
+		return self.__dict__
+
 mealHistory = {}
-midTop = 0
 
 class Meal(object):
 	global mealHistory
-	def __init__(self, kuk, date):
-		self.mid = self.getNextMID()
-		self.kuk = kuk
+	def __init__(self):
+		self.mid = ''
+		self.kuk = ''
 		self.eaters = []
-		self.date = date
-		self.meal = "food"
-		mealHistory[self.mid] = self
+		self.date = ''
+		self.flavorText = ''
+
+	@classmethod
+	def fromFile(self, mid, kuk, eaters, date, flavorText):
+		meal = Meal()
+		meal.mid = mid
+		meal.kuk = kuk
+		meal.eaters = eaters
+		meal.date = date
+		meal.flavorText = flavorText
+		mealHistory[meal.mid] = meal
+		return meal
+
+	@classmethod
+	def new(self, date):
+		meal = Meal()
+		meal.mid = self.getNextMID()
+		meal.date = date
+		mealHistory[meal.mid] = meal
+		return meal
 
 	@staticmethod
 	def getNextMID():
-		global midTop
-		midTop += 1
-		return midTop
+		if len(mealHistory) == 0:
+			return 1
+		return max(mealHistory.keys())+1
+
+	def serialized(self):
+		return self.__dict__
 
 def save():
 	with open(config['mealHistoryFile'], 'w') as outfile:
-			json.dump(mealHistory, outfile)
+		mealListJson = []
+		for mid,meal in mealHistory.iteritems():
+			mealListJson.append(meal.serialized())
+		json.dump(mealListJson, outfile)
+
+	with open(config['peopleFile'], 'w') as outfile:
+		peopleJson = []
+		for name,person in people.iteritems():
+			peopleJson.append(person.serialized())
+		json.dump(peopleJson, outfile)
+
+def load():
+	mealHistory = {}
+	people = {}
+	try:
+		with open(config['mealHistoryFile'], 'r') as infile:
+			fileData = json.load(infile)
+	except:
+		print "no meal history file!"
+		return
+	for meal in fileData:
+		Meal.fromFile(meal['mid'], meal['kuk'], meal['eaters'], meal['date'], meal['flavorText'])
+
+	try:
+		with open(config['peopleFile'], 'r') as infile:
+			fileData = json.load(infile)
+	except:
+		print "no people file!"
+		return
+	for person in fileData:
+		Person.fromFile(person['name'], person['kukPoints'])
+
 
 points = {}
 points[3] = 52
@@ -105,6 +160,9 @@ def newDay():
 	cookies.remove(kuk)
 
 	#kuking and points 
+	m = Meal.new(day);
+	m.kuk = kuk.name
+
 	reward = points[n_people]
 	payment = points[n_people] / (n_people-1)
 	kuk.kukPoints -= reward
@@ -114,9 +172,7 @@ def newDay():
 	for cookie in cookies:
 		cookie.kukPoints += payment
 		cookie.eatenCount += 1
-
-	m = Meal(kuk.name, day);
-	m.eaters = "many people"
+		m.eaters.append(cookie.name)
 
 
 	print ""
@@ -138,13 +194,8 @@ if __name__ == '__main__':
 		config['port'] = 5000
 		config['debug'] = True
 		config['mealHistoryFile'] = "MealHistory.json"
+		config['peopleFile'] = "People.json"
 
-	Person("Mark")
-	Person("Davide")
-	Person("Wille")
-	Person("Sven")
-	Person("David")
-	Person("Ahmed")
+		Person("Davide")
+		Person("Marek")
 
-	for name, person in people.iteritems():
-		person.attendanceRate = 0.2 + random.random() * 0.8
