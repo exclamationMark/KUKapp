@@ -9,3 +9,11 @@ function addme() {
 function removeme() {
 
 }
+
+function confirm() {
+
+}
+
+function bail() {
+	
+}

@@ -111,9 +111,9 @@ h2 {
 .rect-button {
 	width: 100pt;
 	height: 25pt;
-	background: #EE7500;
+	background-color: #EE7500;
 	position: relative;
-	color: #F1EDEA;
+	color: white;
 	left: 220pt;
 	margin-top: 3pt;
 	cursor: pointer;
@@ -127,7 +127,7 @@ h2 {
 	left: 0;
 	width: 100%;
 	text-align: center;
-	color: #EAEAEA;
+	color: white;
 }
 
 .add-button {
@@ -137,9 +137,9 @@ h2 {
 	top: 50%;
 	left: 40pt;
 	margin-top: -25pt;
-	color: #F1EDEA;
+	color: white;
 	border-radius: 25pt;
-	background: #EE7500;
+	background-color: #EE7500;
 	cursor: pointer;
 }
 
@@ -191,9 +191,9 @@ h2 {
 .logout-button {
 	width: 90pt;
 	height: 25pt;
-	background: #EE7500;
+	background-color: #EE7500;
 	position: absolute;
-	color: #F1EDEA;
+	color: white;
 	left: 75pt;
 	top: 70%;
 	margin-top: -13pt;
@@ -208,5 +208,5 @@ h2 {
 	left: 0;
 	width: 100%;
 	text-align: center;
-	color: #EAEAEA;
+	color: white;
 }

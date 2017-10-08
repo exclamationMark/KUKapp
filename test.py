@@ -48,7 +48,10 @@ wille['name'] = 'Wille'
 wille['score'] = -15
 leaderboard.append(wille)
 
-cook = davide
+c_davide = {}
+c_davide['name'] = 'Davide'
+c_davide['confirmed'] = 'yes'
+cook = c_davide
 eaters = ["Pawel", "Mark", "Sven"]
 
 # flask-login

@@ -35,8 +35,12 @@
 				<img src="{{url_for('static', filename=cook.name + '.png')}}">
 				<span>{{ cook.name }}</span>
 				{% if cook.name == current_user.name %}
-				<div class="rect-button"><span>CONFIRM</span></div>
-				<div class="rect-button"><span>BAIL</span></div>
+					{% if cook.confirmed == "no" %}
+					<div class="rect-button" onclick="confirm()"><span>CONFIRM</span></div>
+					<div class="rect-button" onclick="bail()"><span>BAIL</span></div>
+					{% else %}
+					<div class="rect-button" style="background-color: #8faf38"><span>CONFIRMED</span></div>
+					{% endif %}
 				{% endif %}
 			</div>
 		<h2>Eaters</h2>
