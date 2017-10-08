@@ -9,19 +9,30 @@ class Person(object):
 	global people
 	def __init__(self, name):
 		self.name = name
-		self.kukPoints = 0
+		self.kukPoints = 0	
 		people[name] = self
 
 	@classmethod
 	def fromFile(self, name, kukPoints):
 		person = Person(name)
-		self.kukPoints = kukPoints
+		person.kukPoints = kukPoints
 
 	@staticmethod
 	def get(name):
 		if name not in people:
 			people[name] = Person(name)
 		return people[name]
+
+	@staticmethod
+	def leaderboard():
+		leaderboard = []
+		for name,person in people.iteritems():
+			entry = {}
+			entry['name'] = name
+			entry['score'] = person.kukPoints
+			leaderboard.append(entry)
+		leaderboard.sort(key=lambda tup : tup['score'], reverse = True)
+		return leaderboard
 
 	def serialized(self):
 		return self.__dict__
@@ -36,15 +47,17 @@ class Meal(object):
 		self.eaters = []
 		self.date = ''
 		self.flavorText = ''
+		self.accounted = ""
 
 	@classmethod
-	def fromFile(self, mid, kuk, eaters, date, flavorText):
+	def fromFile(self, mid, kuk, eaters, date, flavorText, accounted):
 		meal = Meal()
 		meal.mid = mid
 		meal.kuk = kuk
 		meal.eaters = eaters
 		meal.date = date
 		meal.flavorText = flavorText
+		meal.accounted = accounted
 		mealHistory[meal.mid] = meal
 		return meal
 
@@ -53,8 +66,21 @@ class Meal(object):
 		meal = Meal()
 		meal.mid = self.getNextMID()
 		meal.date = date
+		meal.accounted = "no"
 		mealHistory[meal.mid] = meal
 		return meal
+
+	def account(self):
+		if self.accounted != "no":
+			return "ERROR! this meal has already been accounted for or is broken!"
+		self.accounted = "yes"
+		eaterCount = len(self.eaters)
+		points = config['points'][eaterCount]
+		print "kuk {} clears {} points".format(self.kuk, points)
+		Person.get(self.kuk).kukPoints -= points
+		for eater in self.eaters:
+			Person.get(eater).kukPoints += points / eaterCount
+			print "+{} gets {} points ".format(eater, points / eaterCount)
 
 	@staticmethod
 	def getNextMID():
@@ -88,7 +114,7 @@ def load():
 		print "no meal history file!"
 		return
 	for meal in fileData:
-		Meal.fromFile(meal['mid'], meal['kuk'], meal['eaters'], meal['date'], meal['flavorText'])
+		Meal.fromFile(meal['mid'], meal['kuk'], meal['eaters'], meal['date'], meal['flavorText'], meal['accounted'])
 
 	try:
 		with open(config['peopleFile'], 'r') as infile:
@@ -100,15 +126,15 @@ def load():
 		Person.fromFile(person['name'], person['kukPoints'])
 
 
-points = {}
-points[3] = 52
-points[4] = 69
-points[5] = 80
-points[6] = 90
-points[7] = 102
-points[8] = 112
-points[9] = 120
-points[10] = 135
+kukPointTable = {}
+# points[3] = 52
+# points[4] = 69
+# points[5] = 80
+# points[6] = 90
+# points[7] = 102
+# points[8] = 112
+# points[9] = 120
+# points[10] = 135
 
 newcommers = ["Rick", "Morty", "Jerry", "Mr Poopy Buthole", "Karl Gustav VII", "Erik"]
 
@@ -196,6 +222,15 @@ if __name__ == '__main__':
 		config['mealHistoryFile'] = "MealHistory.json"
 		config['peopleFile'] = "People.json"
 
-		Person("Davide")
-		Person("Marek")
+	# Person('Davide')
+	# Person('Marek')
+	# Person('Sven')
+	# Person('Wille')
+	# Person('Ahmed')
+	# Person('David')
+	# m = Meal.new('8-10-2017')
+	# m.kuk = 'Marek'
+	# m.eaters.append('Davide')
+	# m.eaters.append('Sven')
+	# m.eaters.append('Wille')
 
