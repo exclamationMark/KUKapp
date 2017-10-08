@@ -1,19 +1,19 @@
 import random
 import operator
 import json
-#from flask import Flask, Response, redirect, url_for, request, session, abort, render_template
-#from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
-#app = Flask(__name__)
+from flask import Flask, Response, redirect, url_for, request, session, abort, render_template
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+app = Flask(__name__)
 
-# config
-#app.config.update(
-#    DEBUG = True,
-#    SECRET_KEY = 'secret_xxx'
-#)
+#config
+app.config.update(
+   DEBUG = True,
+   SECRET_KEY = 'secret_xxx'
+)
 configFileName = "kukconfig.json"
 
 people = {}
-class Person(object):
+class Person(UserMixin):
 	global people
 	def __init__(self, name):
 		self.name = name
@@ -135,89 +135,6 @@ def load():
 	for person in fileData:
 		Person.fromFile(person['name'], person['kukPoints'], person['password'])
 
-
-kukPointTable = {}
-# points[3] = 52
-# points[4] = 69
-# points[5] = 80
-# points[6] = 90
-# points[7] = 102
-# points[8] = 112
-# points[9] = 120
-# points[10] = 135
-
-newcommers = ["Rick", "Morty", "Jerry", "Mr Poopy Buthole", "Karl Gustav VII", "Erik"]
-
-day = 1
-def newDay():
-	global day
-	important = ['delicious', 'fabulous', 'very tasty', 'good', 'very good', 'not bad at all', 'favorable', 'ok', 'nutritious', 'italian', 'mouth-watering', 'objectively pleasing', 'aromatic', 'something to write home about', 'probably digestible', 'edible', 'a complex blend of carbon-based chemistry','not sanitized"); DROP TABLE MEALS;--', 'not poisoned', 'of unknown origin', 'crunchy', 'finger-licking good', 'fantastic', 'the best one we had so far', 'fancy', 'extrordinary', 'pleasant']
-	if len(newcommers) > 0 and random.random() < 0.1:
-		newbe = Person(newcommers.pop())
-		newbe.attendanceRate = 0.2 + random.random() * 0.8
-		print "### NEW MEMBER ###"
-		print "!!! {} has joined the group !!!"
-	n_people = 0
-	while n_people < 3:
-		attendees = []
-		for name, person in people.iteritems():
-			if random.random() < person.attendanceRate:
-				attendees.append(name)
-		
-		n_people = len(attendees)
-	
-	print "\n\n===Day {}===".format(str(day))
-	print "{} people comming: ".format(str(n_people))
-	print "  ",
-	for name in attendees:
-		print name + ",",
-	print ""
-
-	#selecting the kuk
-	cookies = [v for k,v in people.iteritems() if k in attendees]
-	scookies = sorted(cookies, key=operator.attrgetter('kukPoints'), reverse=True)
-	tied = []
-	for person in scookies:
-		if person.kukPoints < scookies[0].kukPoints:
-			break
-		tied.append(person)
-
-	if len(tied)==1:
-		print "{} has the most points ({}) and is going to cook".format(tied[0].name, str(tied[0].kukPoints))
-		kuk = tied[0]
-	else:
-		print "{} people are tied with {} points each".format(str(len(tied)), str(tied[0].kukPoints))
-		print "  ",
-		for person in tied:
-			print person.name + ",",
-		print ""
-		kuk = random.choice(tied)
-		print "{} was selected at random and is going to cook".format(kuk.name)
-	cookies.remove(kuk)
-
-	#kuking and points 
-	m = Meal.new(day);
-	m.kuk = kuk.name
-
-	reward = points[n_people]
-	payment = points[n_people] / (n_people-1)
-	kuk.kukPoints -= reward
-	kuk.kukMealCount += 1
-	kuk.kukServingCount += n_people
-	kuk.eatenCount += 1
-	for cookie in cookies:
-		cookie.kukPoints += payment
-		cookie.eatenCount += 1
-		m.eaters.append(cookie.name)
-
-
-	print ""
-	print "{} cooked for {} people and cleared {} KukPoints".format(kuk.name, n_people, reward)
-	print "{} people gained {} KukPoints each".format(n_people-1, payment)
-	print "The meal was {}!".format(random.choice(important[:day]))
-
-	day = day+1
-
 if __name__ == '__main__':
 
 	try:
@@ -231,16 +148,3 @@ if __name__ == '__main__':
 		config['debug'] = True
 		config['mealHistoryFile'] = "MealHistory.json"
 		config['peopleFile'] = "People.json"
-
-	# Person('Davide')
-	# Person('Marek')
-	# Person('Sven')
-	# Person('Wille')
-	# Person('Ahmed')
-	# Person('David')
-	# m = Meal.new('8-10-2017')
-	# m.kuk = 'Marek'
-	# m.eaters.append('Davide')
-	# m.eaters.append('Sven')
-	# m.eaters.append('Wille')
-
