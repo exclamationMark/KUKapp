@@ -34,20 +34,38 @@
 			<div class="cook-entry">
 				<img src="{{url_for('static', filename=cook.name + '.png')}}">
 				<span>{{ cook.name }}</span>
+				{% if cook.name == current_user.name %}
 				<div class="rect-button"><span>CONFIRM</span></div>
 				<div class="rect-button"><span>BAIL</span></div>
+				{% endif %}
 			</div>
 		<h2>Eaters</h2>
 			{% for eater in eaters %}
 			<div class="eater-entry">
-				<img src="{{url_for('static', filename=eater.name + '.png')}}">
-				<span>{{ eater.name }}</span>
+				<img src="{{url_for('static', filename=eater + '.png')}}">
+				<span>{{ eater }}</span>
 			</div>
 			{% endfor %}
-			<div class="eater-entry">
-				<div class="add-button" onclick="addme()"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
-				<span>Add me</span>
-			</div>
+			{% if cook.name != current_user.name %}
+				{% if not current_user.name in eaters %}
+				<div class="eater-entry">
+					<div class="add-button" onclick="addme()"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
+					<span>Add me</span>
+				</div>
+				{% else %}
+				<div class="eater-entry">
+					<div class="add-button" onclick="removeme()"><span><i class="fa fa-minus" aria-hidden="true"></i></span></div>
+					<span>Remove me</span>
+				</div>
+				{% endif %}
+			{% endif %}
+	</div>
+	<div class="user-info">
+		<div class="user-card">
+			<img src="{{url_for('static', filename=current_user.name + '.png')}}">
+			<span>{{current_user.name}}</span>
+			<div class="logout-button" onclick="logout()"><span>LOGOUT</span></div>
+		</div>
 	</div>
 </body>
 </html>

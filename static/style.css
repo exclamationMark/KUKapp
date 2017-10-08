@@ -23,7 +23,7 @@ h2 {
 }
 
 .next-meal {
-	width: 64%;
+	width: 45%;
 	height: 100%;
 	position: absolute;
 	top: 0;
@@ -151,4 +151,62 @@ h2 {
 	left: 0;
 	width: 100%;
 	text-align: center;
+}
+
+.user-info {
+	width: 19%;
+	height: 100%;
+	position: absolute;
+	left: 80%;
+}
+
+.user-card {
+	height: 80pt;
+	position: relative;
+	background-color: #F1EDEA;
+	-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+
+.user-card img{
+	width: 50pt;
+	height: auto;
+	position: absolute;
+	top: 50%;
+	left: 8pt;
+	margin-top: -25pt;
+}
+
+.user-card span {
+	font-size: 16pt;
+	position: absolute;
+	top: 30%;
+	left: 75pt;
+	margin-top: -8pt;
+	width: 90pt;
+	text-align: center;
+}
+
+.logout-button {
+	width: 90pt;
+	height: 25pt;
+	background: #EE7500;
+	position: absolute;
+	color: #F1EDEA;
+	left: 75pt;
+	top: 70%;
+	margin-top: -13pt;
+	cursor: pointer;
+}
+
+.logout-button span {
+	font-size: 12pt;
+	position: absolute;
+	top: 50%;
+	margin-top: -6pt;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #EAEAEA;
 }
