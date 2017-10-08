@@ -11,12 +11,24 @@ app.config.update(
    SECRET_KEY = 'secret_xxx'
 )
 configFileName = "kukconfig.json"
+try:
+	with open (configFileName, 'r') as configFile:
+		config = json.load(configFile)
+except IOError:
+	print "Config file not found! Loading defaults"
+	config = {}
+	config['ip'] = '127.0.0.1'
+	config['port'] = 5000
+	config['debug'] = True
+	config['mealHistoryFile'] = "MealHistory.json"
+	config['peopleFile'] = "People.json"
 
 people = {}
 class Person(UserMixin):
 	global people
 	def __init__(self, name):
 		self.name = name
+		self.id = name
 		self.kukPoints = 0
 		self.password = ''
 		people[name] = self
@@ -134,9 +146,63 @@ def load():
 		return
 	for person in fileData:
 		Person.fromFile(person['name'], person['kukPoints'], person['password'])
+load()
+
+# flask-login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+@app.route("/")
+@login_required
+def index():
+	cook = {}
+	cook['name'] = 'Ahmed'
+	cook['confirmed'] = 'no'
+
+	eaters = ['Marek', 'Davide', 'Sven']
+	return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=eaters)
+
+# somewhere to login
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        print len(people)
+        if Person.get(username).password == password:
+	        login_user(Person.get(username))
+	        return redirect(request.args.get("next"))
+        return abort(401)
+    else:
+        return Response('''
+        <form action="" method="post">
+            <p><input type=text name=username>
+            <p><input type=password name=password>
+            <p><input type=submit value=Login>
+        </form>
+        ''')
+
+# somewhere to logout
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return Response('<p>Logged out</p>')
+
+
+# handle login failed
+@app.errorhandler(401)
+def page_not_found(e):
+    return Response('<p>Login failed</p>')
+    
+    
+# callback to reload the user object        
+@login_manager.user_loader
+def load_user(userid):
+    return Person.get(userid)
 
 if __name__ == '__main__':
-
 	try:
 		with open (configFileName, 'r') as configFile:
 			config = json.load(configFile)
@@ -148,3 +214,4 @@ if __name__ == '__main__':
 		config['debug'] = True
 		config['mealHistoryFile'] = "MealHistory.json"
 		config['peopleFile'] = "People.json"
+	load()
