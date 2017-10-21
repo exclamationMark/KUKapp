@@ -41,6 +41,12 @@
 					{% else %}
 					<div class="rect-button" style="background-color: #8faf38"><span>CONFIRMED</span></div>
 					{% endif %}
+				{% else %}
+					{% if cook.confirmed == "no" %}
+					<div class="rect-button" onclick="confirm()"><span></span></div>
+					{% else %}
+					<div class="rect-button" style="background-color: #8faf38"><span>CONFIRMED</span></div>
+					{% endif %}
 				{% endif %}
 			</div>
 		<h2>Eaters</h2>
