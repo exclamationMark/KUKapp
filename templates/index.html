@@ -32,43 +32,38 @@
 		<h1 style="padding-left: 40pt">Next Meal</h1>
 		<h2>Cook</h2>
 			<div class="cook-entry">
-				<img src="{{url_for('static', filename=cook.name + '.png')}}">
-				<span>{{ cook.name }}</span>
-				{% if cook.name == current_user.name %}
-					{% if cook.confirmed == "no" %}
-					<div class="rect-button" onclick="confirm()"><span>CONFIRM</span></div>
-					<div class="rect-button" onclick="bail()"><span>BAIL</span></div>
-					{% else %}
-					<div class="rect-button" style="background-color: #8faf38"><span>CONFIRMED</span></div>
-					{% endif %}
+				<div class="cook-card">
+				{% if cook.confirmed == "no" %}
+				<img src="{{url_for('static', filename='question.png')}}">
+				<p>If nobody volunteers,<br><br><img id="cook-small-thumb" src="{{url_for('static', filename=cook.name + '.png')}}"> will cook.</p>
+				<div class="rect-button" onclick="volunteer()"><span>VOLUNTEER</span></div>
 				{% else %}
-					{% if cook.confirmed == "no" %}
-					<div class="rect-button" onclick="confirm()"><span></span></div>
-					{% else %}
-					<div class="rect-button" style="background-color: #8faf38"><span>CONFIRMED</span></div>
-					{% endif %}
+				<img src="{{url_for('static', filename= current_user.name + '.png')}}">
+				<span>{{ cook.name }}</span>
+				<div class="rect-button" style="background-color: #8faf38; cursor: default;"><span>CONFIRMED</span></div>
 				{% endif %}
-			</div>
+			</div></div>
 		<h2>Eaters</h2>
 			{% for eater in eaters %}
 			<div class="eater-entry">
+				<div class="eater-card">
 				<img src="{{url_for('static', filename=eater + '.png')}}">
 				<span>{{ eater }}</span>
-			</div>
+			</div></div>
 			{% endfor %}
-			{% if cook.name != current_user.name %}
+			
 				{% if not current_user.name in eaters %}
-				<div class="eater-entry">
+				<div class="eater-entry" style="height: 60pt;">
 					<div class="add-button" onclick="addme()"><span><i class="fa fa-plus" aria-hidden="true"></i></span></div>
 					<span>Add me</span>
 				</div>
 				{% else %}
-				<div class="eater-entry">
+				<div class="eater-entry" style="height: 60pt;">
 					<div class="add-button" onclick="removeme()"><span><i class="fa fa-minus" aria-hidden="true"></i></span></div>
 					<span>Remove me</span>
 				</div>
 				{% endif %}
-			{% endif %}
+			
 	</div>
 	<div class="user-info">
 		<div class="user-card">

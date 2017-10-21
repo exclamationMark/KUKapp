@@ -15,9 +15,10 @@ h2 {
 	width: 35%;
 	position: absolute;
 	top: 0;
+	bottom: 0;
 	left: 0;
 	padding-top: 8pt;
-	height: 100%;
+	height: auto;
 	background-color: rgba(0,0,0,0.8);
 	color: #d4d0cd;
 }
@@ -64,11 +65,20 @@ h2 {
 
 .cook-entry {
 	padding: 0;
-	height: 60pt;
+	/*height: 90pt;*/
 	position: relative;
 }
 
-.cook-entry img {
+.cook-card {
+	background-color: #F1EDEA;
+	height: 100pt;
+	margin-left: 20pt;
+	-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+
+.cook-card img {
 	height: 50pt;
 	width: auto;
 	position: absolute;
@@ -77,7 +87,15 @@ h2 {
 	margin-top: -25pt;
 }
 
-.cook-entry span {
+#cook-small-thumb {
+	height: 20pt;
+	width: auto;
+	position: relative;
+	left: 0;
+	top: 0;
+}
+
+.cook-card span {
 	position: absolute;
 	font-size: 16pt;
 	top: 50%;
@@ -85,19 +103,46 @@ h2 {
 	left: 120pt;
 }
 
+.cook-card p {
+	position: absolute;
+	left: 140pt;
+	margin: -16pt 0 0 0;
+	font-size: 11pt;
+	height: 24pt;
+	top: 50%;
+	text-align: center;
+}
+
 .eater-entry {
 	padding: 0;
-	height: 60pt;
 	position: relative;
 }
 
-.eater-entry img {
+.eater-card {
+	background-color: #F1EDEA;
+	height: 70pt;
+	width: 200pt;
+	margin: 6pt 0 6pt 20pt;
+	-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+	box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+
+.eater-card img {
 	height: 50pt;
 	width: auto;
 	position: absolute;
 	top: 50%;
 	left: 40pt;
 	margin-top: -25pt;
+}
+
+.eater-card span {
+	position: absolute;
+	font-size: 16pt;
+	top: 50%;
+	margin-top: -8pt;
+	left: 120pt;
 }
 
 .eater-entry span {
@@ -110,12 +155,13 @@ h2 {
 
 .rect-button {
 	width: 100pt;
-	height: 25pt;
+	height: 26pt;
 	background-color: #EE7500;
-	position: relative;
+	position: absolute;
 	color: white;
-	left: 220pt;
-	margin-top: 3pt;
+	top: 50%;
+	right: 32pt;
+	margin-top: -13pt;
 	cursor: pointer;
 }
 
