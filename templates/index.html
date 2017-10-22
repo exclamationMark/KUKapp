@@ -38,7 +38,7 @@
 				<p>If nobody volunteers,<br><br><img id="cook-small-thumb" src="{{url_for('static', filename=cook.name + '.png')}}"> will cook.</p>
 				<div class="rect-button" onclick="location.href='/volunteer';"><span>VOLUNTEER</span></div>
 				{% else %}
-				<img src="{{url_for('static', filename= current_user.name + '.png')}}">
+				<img src="{{url_for('static', filename= cook.name + '.png')}}">
 				<span>{{ cook.name }}</span>
 				<div class="rect-button" style="background-color: #8faf38; cursor: default;"><span>CONFIRMED</span></div>
 				{% endif %}
