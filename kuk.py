@@ -3,6 +3,7 @@ import operator
 import json
 from flask import Flask, Response, redirect, url_for, request, session, abort, render_template
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
+import datetime
 app = Flask(__name__)
 
 #config
@@ -60,7 +61,6 @@ class Person(UserMixin):
 		return self.__dict__
 
 mealHistory = {}
-
 class Meal(object):
 	global mealHistory
 	def __init__(self):
@@ -161,12 +161,17 @@ login_manager.login_view = "login"
 @login_required
 def index():
 	meal = Meal.getCurrent()
-
-	cook = {}
-	cook['name'] = meal.kuk
-	cook['confirmed'] = 'yes'
-
-	return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=meal.eaters)
+	if meal.accounted == 'no':
+		cook = {}
+		if meal.kuk[-1] == '?': #no kuk confirmed
+			cook['name'] = meal.kuk[:-1]
+			cook['confirmed'] = 'no'
+		else:
+			cook['name'] = meal.kuk
+			cook['confirmed'] = 'yes'
+		return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=meal.eaters)
+	else:
+		return "no meal planed :("
 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
@@ -195,6 +200,7 @@ def addme():
     meal = Meal.getCurrent()
     if current_user.name not in meal.eaters:
     	meal.eaters.append(current_user.name)
+    	save()
     	return Response('<p>Have a nice meal!</p>')
     else:
     	return Response('<p>only one meal per person!</p>')
@@ -206,9 +212,42 @@ def removeme():
     meal = Meal.getCurrent()
     if current_user.name in meal.eaters:
     	meal.eaters.remove(current_user.name)
-    	return Response('<p>no food for you!</p>')
+    	save()
+    	return '<p>no food for you!</p>'
     else:
-    	return Response('<p>insert joke here</p>')
+    	return '<p>insert joke here</p>'
+
+# make a new meal
+@app.route("/volunteer")
+@login_required
+def volunteer():
+    meal = Meal.getCurrent()
+    if meal.kuk[-1] == '?':
+    	meal.kuk = current_user.name
+    	save()
+    	return '<p>we commend you for your bravery!</p>'
+    else:
+    	return '<p>2 cooks is 1 too many</p>'
+
+# finishing the meal
+@app.route("/finish")
+@login_required
+def finish():
+    meal = Meal.getCurrent()
+    meal.account()
+    save()
+    return '<p>Meal closed!</p>'
+
+# make a new meal
+@app.route("/plan")
+@login_required
+def plan():
+    meal = Meal.new('someday')
+    leaderboard = Person.leaderboard()
+    leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
+    meal.kuk = random.choice(leaders)['name'] + '?'
+    save()
+    return '<p>meal waiting!</p>'
 
 # somewhere to logout
 @app.route("/logout")
@@ -216,7 +255,6 @@ def removeme():
 def logout():
     logout_user()
     return Response('<p>Logged out</p>')
-
 
 # handle login failed
 @app.errorhandler(401)
