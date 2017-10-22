@@ -105,6 +105,10 @@ class Meal(object):
 			print "+{} gets {} points ".format(eater, points / eaterCount)
 
 	@staticmethod
+	def getCurrent():
+		return mealHistory[max(mealHistory.keys())]
+
+	@staticmethod
 	def getNextMID():
 		if len(mealHistory) == 0:
 			return 1
@@ -156,12 +160,13 @@ login_manager.login_view = "login"
 @app.route("/")
 @login_required
 def index():
-	cook = {}
-	cook['name'] = 'Ahmed'
-	cook['confirmed'] = 'no'
+	meal = Meal.getCurrent()
 
-	eaters = ['Marek', 'Davide', 'Sven']
-	return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=eaters)
+	cook = {}
+	cook['name'] = meal.kuk
+	cook['confirmed'] = 'yes'
+
+	return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=meal.eaters)
 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
