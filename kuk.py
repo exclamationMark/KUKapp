@@ -201,9 +201,9 @@ def addme():
     if current_user.name not in meal.eaters:
     	meal.eaters.append(current_user.name)
     	save()
-    	return Response('<p>Have a nice meal!</p>')
+    	return render_template('appresponse.html', message='Have a nice meal!')
     else:
-    	return Response('<p>only one meal per person!</p>')
+    	return render_template('appresponse.html', message='Only one meal per person!')
 
 #anti-adding to meal
 @app.route("/removeme")
@@ -213,9 +213,9 @@ def removeme():
     if current_user.name in meal.eaters:
     	meal.eaters.remove(current_user.name)
     	save()
-    	return '<p>no food for you!</p>'
+    	return render_template('appresponse.html', message='No food for you!')
     else:
-    	return '<p>insert joke here</p>'
+    	return render_template('appresponse.html', message='Insert joke here')
 
 # make a new meal
 @app.route("/volunteer")
@@ -225,9 +225,9 @@ def volunteer():
     if meal.kuk[-1] == '?':
     	meal.kuk = current_user.name
     	save()
-    	return '<p>we commend you for your bravery!</p>'
+    	return render_template('appresponse.html', message='We commend you for your bravery!')
     else:
-    	return '<p>2 cooks is 1 too many</p>'
+    	return render_template('appresponse.html', message='2 cooks is 1 too many!')
 
 # finishing the meal
 @app.route("/finish")
@@ -236,7 +236,7 @@ def finish():
     meal = Meal.getCurrent()
     meal.account()
     save()
-    return '<p>Meal closed!</p>'
+    return render_template('appresponse.html', message='Meal closed!')
 
 # make a new meal
 @app.route("/plan")
@@ -247,7 +247,7 @@ def plan():
     leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
     meal.kuk = random.choice(leaders)['name'] + '?'
     save()
-    return '<p>meal waiting!</p>'
+    return render_template('appresponse.html', message='Meal waiting!')
 
 # somewhere to logout
 @app.route("/logout")
