@@ -2,7 +2,7 @@ import random
 import operator
 import json
 from flask import Flask, Response, redirect, url_for, request, session, abort, render_template
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 app = Flask(__name__)
 
 #config
@@ -17,7 +17,7 @@ try:
 except IOError:
 	print "Config file not found! Loading defaults"
 	config = {}
-	config['ip'] = '127.0.0.1'
+	config['ip'] = '0.0.0.0'
 	config['port'] = 5000
 	config['debug'] = True
 	config['mealHistoryFile'] = "MealHistory.json"
@@ -188,6 +188,28 @@ def login():
         </form>
         ''')
 
+# adding to meal
+@app.route("/addme")
+@login_required
+def addme():
+    meal = Meal.getCurrent()
+    if current_user.name not in meal.eaters:
+    	meal.eaters.append(current_user.name)
+    	return Response('<p>Have a nice meal!</p>')
+    else:
+    	return Response('<p>only one meal per person!</p>')
+
+#anti-adding to meal
+@app.route("/removeme")
+@login_required
+def removeme():
+    meal = Meal.getCurrent()
+    if current_user.name in meal.eaters:
+    	meal.eaters.remove(current_user.name)
+    	return Response('<p>no food for you!</p>')
+    else:
+    	return Response('<p>insert joke here</p>')
+
 # somewhere to logout
 @app.route("/logout")
 @login_required
@@ -206,17 +228,3 @@ def page_not_found(e):
 @login_manager.user_loader
 def load_user(userid):
     return Person.get(userid)
-
-if __name__ == '__main__':
-	try:
-		with open (configFileName, 'r') as configFile:
-			config = json.load(configFile)
-	except IOError:
-		print "Config file not found! Loading defaults"
-		config = {}
-		config['ip'] = '127.0.0.1'
-		config['port'] = 5000
-		config['debug'] = True
-		config['mealHistoryFile'] = "MealHistory.json"
-		config['peopleFile'] = "People.json"
-	load()
