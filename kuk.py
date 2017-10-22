@@ -164,19 +164,36 @@ def index():
 	if meal.accounted == 'no':
 		cook = {}
 		if meal.kuk == '': #no kuk confirmed
-			leaderboard = []
-			for eater in meal.eaters:
-				candidate = {}
-				candidate['name'] = eater
-				candidate['score'] = Person.get(eater).kukPoints
-				leaderboard.append(candidate)
-			leaderboard.sort(key=lambda tup : tup['score'], reverse = True)
-			leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
-			if len(leaders) > 1:
-				print "tie breaking!"
-				cook['name'] = leaders[0]['name']
+			if len(meal.eaters) == 0:
+				cook['name'] = 'question'
 			else:
-				cook['name'] = leaders[0]['name']
+				leaderboard = []
+				for eater in meal.eaters:
+					candidate = {}
+					candidate['name'] = eater
+					candidate['score'] = Person.get(eater).kukPoints
+					leaderboard.append(candidate)
+				leaderboard.sort(key=lambda tup : tup['score'], reverse = True)
+				leaders = [p['name'] for p in leaderboard if p['score'] == leaderboard[0]['score']]
+				if len(leaders) > 1:
+					print "tie breaking!"
+					mid = Meal.getCurrent().mid-1
+					while len(leaders)>1:
+						thatkuk = mealHistory[mid].kuk
+						print "meal " + str(mid)
+						print thatkuk + " cooked that time"
+						if thatkuk in leaders:
+							print "found one!"
+							leaders.remove(thatkuk)
+						if mid == 0:
+							leaders.sort(key=lambda tup : tup['name'])
+							print "beaking!"
+							break
+						print str(len(leaders)) + " remaining"
+						mid-=1
+					cook['name'] = leaders[0]
+				else:
+					cook['name'] = leaders[0]
 			cook['confirmed'] = 'no'
 		else:
 			cook['name'] = meal.kuk
