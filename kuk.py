@@ -163,8 +163,20 @@ def index():
 	meal = Meal.getCurrent()
 	if meal.accounted == 'no':
 		cook = {}
-		if meal.kuk[-1] == '?': #no kuk confirmed
-			cook['name'] = meal.kuk[:-1]
+		if meal.kuk == '': #no kuk confirmed
+			leaderboard = []
+			for eater in meal.eaters:
+				candidate = {}
+				candidate['name'] = eater
+				candidate['score'] = Person.get(eater).kukPoints
+				leaderboard.append(candidate)
+			leaderboard.sort(key=lambda tup : tup['score'], reverse = True)
+			leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
+			if len(leaders) > 1:
+				print "tie breaking!"
+				cook['name'] = leaders[0]['name']
+			else:
+				cook['name'] = leaders[0]['name']
 			cook['confirmed'] = 'no'
 		else:
 			cook['name'] = meal.kuk
@@ -222,7 +234,7 @@ def removeme():
 @login_required
 def volunteer():
     meal = Meal.getCurrent()
-    if meal.kuk[-1] == '?':
+    if meal.kuk == '':
     	meal.kuk = current_user.name
     	save()
     	return '<p>we commend you for your bravery!</p>'
@@ -243,9 +255,9 @@ def finish():
 @login_required
 def plan():
     meal = Meal.new('someday')
-    leaderboard = Person.leaderboard()
-    leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
-    meal.kuk = random.choice(leaders)['name'] + '?'
+    # leaderboard = Person.leaderboard()
+    # leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
+    # meal.kuk = random.choice(leaders)['name'] + '?'
     save()
     return '<p>meal waiting!</p>'
 
