@@ -1,1 +1,9 @@
-[{"kukPoints": -23, "name": "Marek", "password":"yes"}, {"kukPoints": 46, "name": "Ahmed", "password":"yes"}, {"kukPoints": 0, "name": "David", "password":"yes"}, {"kukPoints": -9, "name": "Sven", "password":"yes"}, {"kukPoints": 43, "name": "Wille", "password":"yes"}, {"kukPoints": -57, "name": "Davide", "password":"yes"}]
+[
+	{"password": "yes", "kukPoints": 20, "name": "Marek", "id": "Marek"}, 
+	{"password": "yes", "kukPoints": 0, "name": "Ahmed", "id": "Ahmed"}, 
+	{"password": "yes", "kukPoints": 20, "name": "David", "id": "David"}, 
+	{"password": "yes", "kukPoints": 20, "name": "Sven", "id": "Sven"}, 
+	{"password": "yes", "kukPoints": 20, "name": "Wille", "id": "Wille"}, 
+	{"password": "yes", "kukPoints": -80, "name": "Davide", "id": "Davide"},
+	{"password": "yes", "kukPoints": 0, "name": "Paul", "id": "Paul"}
+]
