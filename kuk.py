@@ -185,12 +185,12 @@ def index():
 						if thatkuk in leaders:
 							print "found one!"
 							leaders.remove(thatkuk)
+						mid-=1
 						if mid == 0:
-							leaders.sort(key=lambda tup : tup['name'])
+							leaders.sort()
 							print "beaking!"
 							break
 						print str(len(leaders)) + " remaining"
-						mid-=1
 					cook['name'] = leaders[0]
 				else:
 					cook['name'] = leaders[0]
@@ -268,15 +268,19 @@ def finish():
     return render_template('appresponse.html', message='Meal closed!')
 
 # make a new meal
-@app.route("/plan")
+@app.route("/plan", methods=["GET", "POST"])
 @login_required
 def plan():
-    meal = Meal.new('someday')
-    # leaderboard = Person.leaderboard()
-    # leaders = [p for p in leaderboard if p['score'] == leaderboard[0]['score']]
-    # meal.kuk = random.choice(leaders)['name'] + '?'
-    save()
-    return render_template('appresponse.html', message='Meal waiting!')
+	meal = Meal.getCurrent()
+	if meal.accounted == 'yes':
+		meal = Meal.new(request.args.get('date'))
+		save()
+		return render_template('appresponse.html', message='New meal set up!')
+	else:
+		meal.date = request.args.get('date')
+		save()
+		return render_template('appresponse.html', message='Date updated!')
+
 
 # somewhere to logout
 @app.route("/logout")
