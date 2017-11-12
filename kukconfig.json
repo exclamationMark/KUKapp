@@ -1,1 +1,1 @@
-{"ip":"0.0.0.0", "port": 5000, "debug":"True", "mealHistoryFile":"MealHistory.json", "peopleFile":"People.json", "points":[0,0,52,69,80,90,102,112,120,135]}
+{"ip":"0.0.0.0", "port": 5000, "debug":"True", "mealHistoryFile":"MealHistory.json", "peopleFile":"People.json", "points":[0,0,54,69,80,90,102,112,120,126]}
