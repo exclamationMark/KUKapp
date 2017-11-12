@@ -198,7 +198,7 @@ def index():
 		else:
 			cook['name'] = meal.kuk
 			cook['confirmed'] = 'yes'
-		return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=meal.eaters)
+		return render_template('index.html', leaderboard=Person.leaderboard(), cook=cook, eaters=meal.eaters, date=meal.date)
 	else:
 		return "no meal planed :("
 

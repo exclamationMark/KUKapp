@@ -34,6 +34,7 @@
 		<h2>Cook</h2>
 			<div class="cook-entry">
 				<div class="cook-card">
+				<span>date: {{ date }}</span>
 				{% if cook.confirmed == "no" %}
 				<img src="{{url_for('static', filename='question.png')}}">
 				<p>If nobody volunteers,<br><br><img id="cook-small-thumb" src="{{url_for('static', filename=cook.name + '.png')}}"> will cook.</p>
